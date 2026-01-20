@@ -8,35 +8,44 @@ if (grid) {
         const card = document.createElement('div');
         card.className = 'card';
 
-        const title = document.createElement('h3');
-        title.textContent = article.title;
+        const initialContent = document.createElement('div');
+        initialContent.className = 'card-preview';
+        initialContent.innerHTML = `
+            <h3>${article.title}</h3>
+            <p class="subheading">${article.subheading}</p>
+        `;
+        card.appendChild(initialContent);
 
-        const sub = document.createElement('p');
-        sub.className = 'subheading';
-        sub.textContent = article.subheading;
+        const bodyContainer = document.createElement('div');
+        bodyContainer.className = 'article-body';
+        card.appendChild(bodyContainer);
 
-        card.addEventListener('click', async () => {
-            console.log(`Clicked: ${article.title}`);
+        card.addEventListener('click', async (e) => {
+            if (card.classList.contains('expanded')) return;
+
+            card.classList.add('expanded');
+            bodyContainer.textContent = "Generating article with Gemini...";
             
-            card.style.opacity = "0.5"; 
-            document.body.style.cursor = "wait";
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'close-btn';
+            closeBtn.textContent = "✕ Close";
+            
+            closeBtn.onclick = (event) => {
+                event.stopPropagation(); // Stop click from re-triggering card
+                card.classList.remove('expanded');
+                bodyContainer.textContent = ""; // Clear content
+                closeBtn.remove(); // Remove button
+            };
+            card.appendChild(closeBtn);
 
             try {
                 const data = await getArticleContent(article.title, article.subheading);
-                
-                console.log("Received from Gemini:", data.content);
-                alert("Content generated! Check the Console (F12) to see the text.");
+                bodyContainer.textContent = data.content; // Inject text
             } catch (error) {
-                console.error(error);
-                alert("Error fetching article.");
-            } finally {
-                card.style.opacity = "1";
-                document.body.style.cursor = "default";
+                bodyContainer.textContent = "Error: Could not load article.";
             }
         });
 
-        card.appendChild(title);
-        card.appendChild(sub);
         grid.appendChild(card);
     });
 }
