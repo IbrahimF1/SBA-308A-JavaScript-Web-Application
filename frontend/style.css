@@ -1,0 +1,46 @@
+body {
+    background-color: #191A1A;
+    color: #E8E8E6;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 20px;
+}
+
+main {
+    max-width: 1000px;
+    width: 100%;
+}
+
+h1 {
+    font-family: serif;
+    font-weight: lighter;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+#grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: #202222;
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #333;
+}
+
+.card:hover {
+    background-color: #2A2C2C;
+}
+
+.subheading {
+    color: #8D9191;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
