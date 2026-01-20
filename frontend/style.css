@@ -44,3 +44,52 @@ h1 {
     font-size: 0.9em;
     margin-top: 10px;
 }
+
+
+/* https://codepen.io/colinlohner/pen/pwGozJ
+https://codepen.io/yasirhaleem/pen/yLyvavQ */
+.card.expanded {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    margin: 0;
+    border-radius: 0;
+    overflow-y: auto;
+    box-sizing: border-box;
+    cursor: default;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.article-body {
+    margin-top: 30px;
+    line-height: 1.8;
+    color: #d1d5db;
+    font-size: 1.1em;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    white-space: pre-wrap;
+}
+
+.close-btn {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    background: #2bbca2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 1001;
+}
+
+.close-btn:hover {
+    background: #1e9e86;
+}
