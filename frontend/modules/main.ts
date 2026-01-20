@@ -1,6 +1,9 @@
 import { articles } from './data.js';
 import { getArticleContent } from './api.js';
 
+
+declare const marked: any; // Tells TypeScript that 'marked' exists globally
+
 const grid = document.getElementById('grid-container');
 
 if (grid) {
@@ -24,25 +27,31 @@ if (grid) {
             if (card.classList.contains('expanded')) return;
 
             card.classList.add('expanded');
-            bodyContainer.textContent = "Generating article with Gemini...";
+
+            bodyContainer.innerHTML = "<p>Generating article with Gemini...</p>";
             
             const closeBtn = document.createElement('button');
             closeBtn.className = 'close-btn';
             closeBtn.textContent = "✕ Close";
             
             closeBtn.onclick = (event) => {
-                event.stopPropagation(); // Stop click from re-triggering card
+                event.stopPropagation();
                 card.classList.remove('expanded');
-                bodyContainer.textContent = ""; // Clear content
-                closeBtn.remove(); // Remove button
+                bodyContainer.innerHTML = "";
+                closeBtn.remove();
             };
             card.appendChild(closeBtn);
 
             try {
                 const data = await getArticleContent(article.title, article.subheading);
-                bodyContainer.textContent = data.content; // Inject text
+                
+                // Convert Markdown string to HTML using the library
+                const htmlContent = marked.parse(data.content);
+                bodyContainer.innerHTML = htmlContent;
+
             } catch (error) {
                 bodyContainer.textContent = "Error: Could not load article.";
+                console.error(error);
             }
         });
 
