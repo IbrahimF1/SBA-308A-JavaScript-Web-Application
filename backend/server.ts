@@ -11,26 +11,26 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Initialize Gemini
 const genAI = new GoogleGenerativeAI(process.env.API_KEY as string);
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
-// Basic Test Route
-app.post('/api/test-generate', async (req: Request, res: Response) => {
-    try {
-        const { prompt } = req.body;
-        console.log(`Received prompt: ${prompt}`);
 
-        // Call Gemini
+app.post('/api/generate', async (req: Request, res: Response) => {
+    try {
+        const { title, subheading } = req.body;
+        
+        
+        const prompt = `Write a concise, informative article (approx 150 words) for a web developer about: "${title}". Context: ${subheading}`;
+
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
 
-        // Return result
+        
         res.json({ success: true, content: text });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: "Failed to generate content" });
+        res.status(500).json({ success: false, error: "Generation failed" });
     }
 });
 
