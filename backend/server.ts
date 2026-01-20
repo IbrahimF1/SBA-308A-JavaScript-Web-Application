@@ -34,6 +34,8 @@ app.post('/api/test-generate', async (req: Request, res: Response) => {
     }
 });
 
+app.use(express.static('frontend'));
+
 // Start Server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
